@@ -5,6 +5,16 @@ const Components = require("unplugin-vue-components/webpack");
 const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
 module.exports = defineConfig({
     transpileDependencies: true,
+    devServer: {
+        proxy: {
+            "/api": {
+                target: "http://124.222.23.222:3000",
+                pathRewrite: { "^/api": "" },
+                ws: true,
+                changeOrigin: true,
+            },
+        },
+    },
     configureWebpack: {
         resolve: {
             alias: {
