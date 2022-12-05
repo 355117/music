@@ -13,6 +13,8 @@ export default createStore({
             limit: 25,
             offset: 1,
         },
+        //排行榜
+        topList: [],
     },
     getters: {},
     mutations: {
@@ -33,6 +35,9 @@ export default createStore({
             state.offset.cat = payload[1];
             state.offset.limit = payload[2];
             state.offset.offset = payload[3];
+        },
+        setTopList(state, payload) {
+            state.topList = payload;
         },
     },
     actions: {
@@ -64,6 +69,14 @@ export default createStore({
             let result = await server.getGeDanImgList(cat, limit, offset);
             let data = [result.data.playlists, cat, limit, offset];
             commit("setGeDanImgList", data);
+        },
+        async getTopList({ commit }) {
+            let result = await server.getTopList();
+            let list_1 = result.data.list.slice(0, 4);
+            let list_2 = result.data.list.slice(4);
+            let list = [list_1, list_2];
+            console.log(list);
+            commit("setTopList", list);
         },
     },
     modules: {},
